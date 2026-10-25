@@ -169,3 +169,20 @@ body.home main{max-width:none;padding:0}
 .rite{text-align:center;padding:14px 10px;border:1px solid rgba(212,175,55,.45);border-radius:40px;font-family:"Cinzel",serif;color:var(--cyan);font-weight:700;font-size:15px;text-shadow:var(--cyan-glow)}
 .rite span{display:block;color:var(--gold);font-size:12px;text-shadow:none}
 @media (max-width:1000px){.grid2,.stats,.rites{grid-template-columns:1fr 1fr}.fusion{grid-template-columns:1fr}}
+
+/* phone layout fixes (only applies at 640px and below; desktop unchanged) */
+@media (max-width:640px){
+ /* home: the four hero hotspots become real, tappable buttons under the image */
+ .homehero{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:0 16px 20px;line-height:1.2}
+ .homehero img{grid-column:1/-1;margin:0 -16px 4px;width:calc(100% + 32px)}
+ .homehero .hot{position:static!important;left:auto!important;top:auto!important;width:auto!important;height:auto!important;min-height:52px;display:flex;align-items:center;justify-content:center;padding:12px 10px;border:2px solid var(--gold);border-radius:6px;background:rgba(8,8,8,.75);box-shadow:0 0 10px rgba(212,175,55,.25);text-decoration:none;text-align:center}
+ .homehero .hot:before{content:attr(aria-label);font-family:"Cinzel",serif;font-weight:700;font-size:15px;letter-spacing:.06em;color:var(--cyan);text-shadow:var(--cyan-glow)}
+ /* even tiles, no sideways scroll */
+ .grid2{grid-template-columns:minmax(0,1fr)}
+ .grid5{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+ .grid5>.card:last-child:nth-child(odd){grid-column:1/-1}
+ .grid5 .card{padding:20px 16px}
+ .ringwrap{width:100%;max-width:640px}
+ .node{width:88px;min-height:54px;padding:6px 4px}
+ .node b{font-size:11px;overflow-wrap:anywhere}
+}
