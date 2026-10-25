@@ -130,6 +130,7 @@ h3{color:var(--gold);font-size:19px;margin:0 0 8px;font-weight:700;letter-spacin
 /* home */
 .homehero{position:relative;max-width:1536px;margin:0 auto;line-height:0}
 .homehero img{width:100%;height:auto;display:block}
+.homehero picture{display:contents}
 .hot{position:absolute;display:block;border-radius:6px}
 .hot:hover,.hot:focus-visible{box-shadow:0 0 18px rgba(212,175,55,.6);outline:none}
 body.home main{max-width:none;padding:0}
