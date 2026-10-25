@@ -111,7 +111,7 @@ body {
 
 		<script src="index.js"></script>
 		<script>
-const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":true,"executable":"index","experimentalVK":true,"fileSizes":{"index.pck":41560468,"index.wasm":39514754},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4};
+const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":true,"executable":"index","experimentalVK":true,"fileSizes":{"index.pck":41731860,"index.wasm":39514754},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4};
 const GODOT_THREADS_ENABLED = false;
 const engine = new Engine(GODOT_CONFIG);
 
@@ -198,6 +198,23 @@ const engine = new Engine(GODOT_CONFIG);
 			displayFailureNotice(missingMsg + missing.join('\n'));
 		}
 	} else {
+		// Web audio gate (box test copy): browsers keep audio locked until the player
+		// clicks or taps, so wait for one tap before starting the engine. The engine's
+		// AudioContext is then created after a user gesture and the title music plays.
+		const gate = document.createElement('button');
+		gate.id = 'tap-to-start';
+		gate.textContent = 'Click or tap to start (sound on)';
+		gate.style.cssText = 'position:fixed;inset:0;margin:auto;width:min(80vw,420px);height:64px;z-index:10;font:600 18px sans-serif;color:#e6fbff;background:#06222a;border:2px solid #00e5ff;border-radius:10px;cursor:pointer;';
+		document.body.appendChild(gate);
+		statusOverlay.style.visibility = 'visible';
+		statusProgress.style.display = 'none';
+		const begin = function () {
+			gate.removeEventListener('click', begin);
+			gate.remove();
+			startEngine();
+		};
+		gate.addEventListener('click', begin);
+		function startEngine() {
 		setStatusMode('progress');
 		engine.startGame({
 			'onProgress': function (current, total) {
@@ -212,6 +229,7 @@ const engine = new Engine(GODOT_CONFIG);
 		}).then(() => {
 			setStatusMode('hidden');
 		}, displayFailureNotice);
+		}
 	}
 }());
 		</script>
